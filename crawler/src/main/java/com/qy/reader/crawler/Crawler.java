@@ -5,20 +5,16 @@ import android.text.TextUtils;
 import android.util.Log;
 import android.util.SparseBooleanArray;
 
-import com.google.gson.Gson;
-import com.google.gson.reflect.TypeToken;
-import com.qy.reader.common.entity.source.SourceEnable;
-import com.qy.reader.common.entity.source.SourceID;
-import com.qy.reader.common.utils.SPUtils;
-import com.qy.reader.common.utils.StringUtils;
-import com.qy.reader.crawler.source.callback.ChapterCallback;
-import com.qy.reader.crawler.source.callback.ContentCallback;
 import com.qy.reader.common.entity.book.SearchBook;
-import com.qy.reader.crawler.source.callback.SearchCallback;
 import com.qy.reader.common.entity.chapter.Chapter;
 import com.qy.reader.common.entity.source.Source;
 import com.qy.reader.common.entity.source.SourceConfig;
+import com.qy.reader.common.entity.source.SourceID;
+import com.qy.reader.common.utils.StringUtils;
 import com.qy.reader.crawler.source.SourceManager;
+import com.qy.reader.crawler.source.callback.ChapterCallback;
+import com.qy.reader.crawler.source.callback.ContentCallback;
+import com.qy.reader.crawler.source.callback.SearchCallback;
 import com.qy.reader.crawler.xpath.exception.XpathSyntaxErrorException;
 import com.qy.reader.crawler.xpath.model.JXDocument;
 import com.qy.reader.crawler.xpath.model.JXNode;
@@ -297,7 +293,25 @@ public class Crawler {
         return link;
     }
 
-    public static void main(String args[]) {
+    public static void main(String[] args) {
+        search("神墓", new SearchCallback() {
+            @Override
+            public void onResponse(String keyword, List<SearchBook> appendList) {
+                System.out.println("keyword：" + keyword);
+                for (SearchBook book : appendList) {
+                    System.out.println("book：" + book.title);
+                }
+            }
 
+            @Override
+            public void onFinish() {
+                System.out.println("onFinish");
+            }
+
+            @Override
+            public void onError(String msg) {
+                System.out.println("onError：" + msg);
+            }
+        });
     }
 }
